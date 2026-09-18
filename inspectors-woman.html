@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>زي المفتشات</title>
+
+<style>
+body {
+margin: 0;
+font-family: Arial, sans-serif;
+background: #f4f7fb;
+color: #12345b;
+}
+
+.header {
+background: #123f70;
+color: white;
+padding: 25px;
+text-align: center;
+}
+
+.container {
+max-width: 900px;
+margin: 30px auto;
+padding: 20px;
+}
+
+.type {
+background: white;
+padding: 25px;
+border-radius: 18px;
+box-shadow: 0 3px 15px #d8e0ea;
+}
+
+h2 {
+color: #123f70;
+border-bottom: 2px solid #e5ebf2;
+padding-bottom: 15px;
+}
+
+.item {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 18px 0;
+border-bottom: 1px solid #e5ebf2;
+}
+
+select {
+padding: 10px;
+border: 1px solid #ccd6e3;
+border-radius: 8px;
+font-size: 15px;
+min-width: 140px;
+}
+
+button {
+background: #123f70;
+color: white;
+border: none;
+padding: 14px 30px;
+border-radius: 10px;
+font-size: 16px;
+cursor: pointer;
+}
+
+.back {
+display: inline-block;
+margin-bottom: 20px;
+color: #123f70;
+text-decoration: none;
+font-weight: bold;
+}
+
+.submit {
+text-align: center;
+margin-top: 30px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h1>زي المفتشات</h1>
+<p>طلب الزي الرسمي</p>
+</div>
+
+<div class="container">
+
+<a href="index.html" class="back">← العودة للرئيسية</a>
+
+<div class="type">
+
+<h2>الزي الرسمي</h2>
+
+<div class="item">
+<span>الجاكيت</span>
+
+<select>
+<option>اختر المقاس</option>
+<option>XS</option>
+<option>S</option>
+<option>M</option>
+<option>L</option>
+<option>XL</option>
+<option>XXL</option>
+<option>XXXL</option>
+<option>XXXXL</option>
+</select>
+
+</div>
+
+<div class="item">
+<span>التنورة</span>
+
+<select>
+<option>اختر المقاس</option>
+<option>XS</option>
+<option>S</option>
+<option>M</option>
+<option>L</option>
+<option>XL</option>
+<option>XXL</option>
+<option>XXXL</option>
+<option>XXXXL</option>
+</select>
+
+</div>
+
+<div class="item">
+<span>الأزرار</span>
+<button>طلب</button>
+</div>
+
+<div class="item">
+<span>الشعار</span>
+<button>طلب</button>
+</div>
+
+<div class="item">
+<span>الكتافية</span>
+<button>طلب</button>
+</div>
+
+<div class="item">
+<span>بادج نيم - الاسم الثلاثي</span>
+<input type="text" placeholder="اكتب الاسم الثلاثي"
+style="padding:10px;border:1px solid #ccd6e3;border-radius:8px;">
+
+</div>
+
+</div>
+
+<div class="submit">
+<button onclick="submitOrder()">إرسال الطلب</button>
+</div>
+
+</div>
+
+<script>
+function submitOrder() {
+alert("تم تجهيز الطلب بنجاح");
+}
+</script>
+
+</body>
+</html>
