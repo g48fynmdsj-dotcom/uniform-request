@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
 <head>
@@ -46,7 +46,7 @@ box-shadow: 0 3px 15px #d8e0ea;
 }
 
 .order-number {
-font-size: 19px;
+font-size: 20px;
 font-weight: bold;
 color: #123f70;
 }
@@ -63,105 +63,4 @@ padding: 8px 15px;
 border-radius: 20px;
 background: #e8f0f8;
 color: #123f70;
-font-weight: bold;
-}
-
-.items {
-margin-top: 15px;
-line-height: 1.9;
-}
-
-.empty {
-background: white;
-padding: 40px;
-text-align: center;
-border-radius: 16px;
-box-shadow: 0 3px 15px #d8e0ea;
-color: #777;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="header">
-
-<h1>📋 طلباتي</h1>
-
-<p>متابعة طلبات الزي الرسمي</p>
-
-</div>
-
-
-<div class="container">
-
-<a href="index.html" class="back">
-← العودة للرئيسية
-</a>
-
-
-<div id="orders"></div>
-
-</div>
-
-
-<script>
-
-function loadOrders() {
-
-let orders =
-JSON.parse(
-localStorage.getItem("uniformOrders")
-) || [];
-
-let container =
-document.getElementById("orders");
-
-
-if (orders.length === 0) {
-
-container.innerHTML = `
-
-<div class="empty">
-
-لا توجد طلبات حالياً 📋
-
-</div>
-
-`;
-
-return;
-}
-
-
-container.innerHTML = "";
-
-
-orders.slice().reverse().forEach(function(order) {
-
-let itemsHTML = "";
-
-
-if (order.items && order.items.length > 0) {
-
-order.items.forEach(function(item) {
-
-itemsHTML += `
-
-<div>
-
-• ${item.name || "قطعة زي رسمي"}
-
-${item.size
-? " - المقاس: " + item.size
-: ""}
-
-</div>
-
-`;
-
-});
-
-
+font
