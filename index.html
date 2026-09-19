@@ -5,9 +5,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>السلة - نظام طلب الزي الرسمي</title>
+<title>نظام طلب الزي الرسمي</title>
 
 <style>
+
 body {
 margin: 0;
 font-family: Arial, sans-serif;
@@ -15,267 +16,362 @@ background: #f4f7fb;
 color: #12345b;
 }
 
-.header {
-background: #123f70;
-color: white;
-padding: 25px;
+.login {
+max-width: 420px;
+margin: 100px auto;
+background: white;
+padding: 40px;
+border-radius: 20px;
+box-shadow: 0 5px 25px #ccd6e3;
 text-align: center;
 }
 
-.container {
-max-width: 900px;
-margin: 30px auto;
-padding: 20px;
+.login h1 {
+margin-bottom: 30px;
 }
 
-.back {
-display: inline-block;
-margin-bottom: 20px;
-color: #123f70;
-text-decoration: none;
-font-weight: bold;
+input {
+width: 90%;
+padding: 15px;
+margin: 8px;
+border: 1px solid #ccd6e3;
+border-radius: 10px;
+font-size: 16px;
+box-sizing: border-box;
 }
 
-.cart-box {
-background: white;
-padding: 25px;
-border-radius: 18px;
-box-shadow: 0 3px 15px #d8e0ea;
+button {
+background: #123f70;
+color: white;
+border: 0;
+padding: 14px 35px;
+border-radius: 10px;
+font-size: 16px;
+cursor: pointer;
 }
 
-.item {
+.home {
+display: none;
+padding: 30px;
+}
+
+.header {
 display: flex;
 justify-content: space-between;
 align-items: center;
-padding: 18px 5px;
-border-bottom: 1px solid #e5ebf2;
+gap: 15px;
+flex-wrap: wrap;
 }
 
-.item-info {
-font-size: 17px;
-line-height: 1.8;
+.logout {
+background: #8b1e3f;
+padding: 10px 20px;
 }
 
-.delete {
-background: #b3261e;
-color: white;
-border: none;
-padding: 10px 18px;
-border-radius: 8px;
-cursor: pointer;
+.top-buttons {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 15px;
+margin: 25px 0;
 }
 
-.empty {
+.top-button {
+background: white;
+padding: 18px;
+border-radius: 15px;
+box-shadow: 0 3px 15px #d8e0ea;
 text-align: center;
-padding: 40px;
 font-size: 18px;
-color: #777;
-}
-
-.total {
-font-size: 20px;
 font-weight: bold;
-margin-top: 25px;
-text-align: center;
+color: #123f70;
+text-decoration: none;
 }
 
-.confirm {
-display: block;
-width: 100%;
-margin-top: 25px;
+.cart-count {
 background: #123f70;
 color: white;
-border: none;
-padding: 16px;
-border-radius: 10px;
-font-size: 18px;
+padding: 3px 9px;
+border-radius: 15px;
+font-size: 14px;
+}
+
+.cards {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 20px;
+margin-top: 30px;
+}
+
+.card {
+background: white;
+padding: 30px;
+border-radius: 18px;
+box-shadow: 0 3px 15px #d8e0ea;
+text-align: center;
+font-size: 20px;
+text-decoration: none;
+color: #12345b;
 cursor: pointer;
 }
+
+.card:hover,
+.top-button:hover {
+transform: translateY(-2px);
+}
+
 </style>
 
 </head>
 
 <body>
 
-<div class="header">
-<h1>🛒 السلة</h1>
-<p>مراجعة طلب الزي الرسمي</p>
+
+<!-- تسجيل الدخول -->
+
+<div class="login" id="login">
+
+<h1>
+نظام طلب الزي الرسمي
+</h1>
+
+<input
+id="employee"
+placeholder="رقم الموظف"
+>
+
+<input
+id="password"
+type="password"
+placeholder="كلمة المرور"
+>
+
+<br><br>
+
+<button onclick="login()">
+تسجيل الدخول
+</button>
+
+<p>
+نسيت كلمة المرور؟
+</p>
+
 </div>
 
-<div class="container">
 
-<a href="index.html" class="back">
-← العودة للرئيسية
-</a>
+<!-- الصفحة الرئيسية -->
 
-<div class="cart-box">
+<div class="home" id="home">
 
-<div id="cartItems"></div>
+<div class="header">
 
-<div id="total" class="total"></div>
+<h1>
+نظام طلب الزي الرسمي
+</h1>
 
 <button
-class="confirm"
-onclick="confirmOrder()">
+class="logout"
+onclick="logout()">
 
-تأكيد وإرسال الطلب
+تسجيل خروج
 
 </button>
 
 </div>
+
+<p>
+مرحباً بك 👋
+</p>
+
+
+<!-- السلة وطلباتي -->
+
+<div class="top-buttons">
+
+<a
+href="cart.html"
+class="top-button">
+
+🛒 السلة
+
+<span
+class="cart-count"
+id="cartCount">
+
+0
+
+</span>
+
+</a>
+
+
+<a
+href="orders.html"
+class="top-button">
+
+📋 طلباتي
+
+</a>
+
 </div>
+
+
+<!-- الأقسام -->
+
+<div class="cards">
+
+<a
+href="inspectors.html"
+class="card">
+
+👔
+
+<br><br>
+
+زي المفتشين
+
+</a>
+
+
+<a
+href="inspectors-woman.html"
+class="card">
+
+👗
+
+<br><br>
+
+زي المفتشات
+
+</a>
+
+
+<div
+class="card"
+onclick="showNotifications()">
+
+🔔
+
+<br><br>
+
+الإشعارات
+
+</div>
+
+</div>
+
+</div>
+
 
 <script>
 
-function loadCart() {
 
-let cart =
-JSON.parse(localStorage.getItem("uniformCart")) || [];
+/* تسجيل الدخول */
 
-let container =
-document.getElementById("cartItems");
+function login() {
 
-let total =
-document.getElementById("total");
+let employee =
+document.getElementById("employee").value;
 
-if (cart.length === 0) {
-
-container.innerHTML = `
-<div class="empty">
-السلة فارغة حالياً 🛒
-</div>
-`;
-
-total.innerHTML = "";
-return;
-}
-
-container.innerHTML = "";
-
-cart.forEach(function(item, index) {
-
-let div = document.createElement("div");
-
-div.className = "item";
-
-let itemName =
-item.name || "قطعة زي رسمي";
-
-let itemSize =
-item.size
-? "<br>المقاس: " + item.size
-: "";
-
-div.innerHTML = `
-
-<div class="item-info">
-
-<strong>${itemName}</strong>
-
-${itemSize}
-
-</div>
-
-<button
-class="delete"
-onclick="removeItem(${index})">
-
-حذف
-
-</button>
-
-`;
-
-container.appendChild(div);
-
-});
-
-total.innerHTML =
-"عدد القطع: " + cart.length;
-}
+let password =
+document.getElementById("password").value;
 
 
-function removeItem(index) {
-
-let cart =
-JSON.parse(localStorage.getItem("uniformCart")) || [];
-
-cart.splice(index, 1);
+if (employee && password) {
 
 localStorage.setItem(
-"uniformCart",
-JSON.stringify(cart)
+"uniformLoggedIn",
+"true"
 );
-
-loadCart();
-}
-
-
-function confirmOrder() {
-
-let cart =
-JSON.parse(localStorage.getItem("uniformCart")) || [];
-
-if (cart.length === 0) {
-
-alert("السلة فارغة");
-return;
-}
-
-let now = new Date();
-
-let date =
-now.getFullYear().toString() +
-(now.getMonth() + 1).toString().padStart(2, "0") +
-now.getDate().toString().padStart(2, "0");
-
-let random =
-Math.floor(1000 + Math.random() * 9000);
-
-let orderNumber =
-"UR-" + date + "-" + random;
-
-let orders =
-JSON.parse(
-localStorage.getItem("uniformOrders")
-) || [];
-
-let newOrder = {
-
-number: orderNumber,
-
-date:
-new Date().toLocaleString("ar-AE"),
-
-status: "جديد",
-
-items: cart
-
-};
-
-orders.push(newOrder);
 
 localStorage.setItem(
-"uniformOrders",
-JSON.stringify(orders)
+"employeeNumber",
+employee
 );
 
-localStorage.removeItem(
-"uniformCart"
-);
+showHome();
+
+} else {
 
 alert(
-"تم إرسال الطلب بنجاح ✅\n\n" +
-"رقم الطلب: " +
-orderNumber
+"يرجى إدخال رقم الموظف وكلمة المرور"
 );
 
-window.location.href =
-"index.html";
+}
+
 }
 
 
-loadCart();
+/* إظهار الصفحة الرئيسية */
+
+function showHome() {
+
+document.getElementById("login")
+.style.display = "none";
+
+document.getElementById("home")
+.style.display = "block";
+
+updateCartCount();
+
+}
+
+
+/* تحديث عدد السلة */
+
+function updateCartCount() {
+
+let cart =
+JSON.parse(
+localStorage.getItem("uniformCart")
+) || [];
+
+
+document.getElementById(
+"cartCount"
+).innerText = cart.length;
+
+}
+
+
+/* الإشعارات */
+
+function showNotifications() {
+
+alert(
+"لا توجد إشعارات جديدة 🔔"
+);
+
+}
+
+
+/* تسجيل الخروج */
+
+function logout() {
+
+localStorage.removeItem(
+"uniformLoggedIn"
+);
+
+document.getElementById("home")
+.style.display = "none";
+
+document.getElementById("login")
+.style.display = "block";
+
+}
+
+
+/* فحص تسجيل الدخول عند فتح الصفحة */
+
+if (
+localStorage.getItem(
+"uniformLoggedIn"
+) === "true"
+) {
+
+showHome();
+
+}
 
 </script>
 
