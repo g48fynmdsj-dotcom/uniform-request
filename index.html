@@ -26,7 +26,7 @@ box-shadow: 0 5px 25px #ccd6e3;
 text-align: center;
 }
 
-.login h1 {
+h1 {
 margin-bottom: 30px;
 }
 
@@ -55,19 +55,6 @@ display: none;
 padding: 30px;
 }
 
-.header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-gap: 15px;
-flex-wrap: wrap;
-}
-
-.logout {
-background: #8b1e3f;
-padding: 10px 20px;
-}
-
 .top-buttons {
 display: grid;
 grid-template-columns: repeat(2, 1fr);
@@ -85,14 +72,6 @@ font-size: 18px;
 font-weight: bold;
 color: #123f70;
 text-decoration: none;
-}
-
-.cart-count {
-background: #123f70;
-color: white;
-padding: 3px 9px;
-border-radius: 15px;
-font-size: 14px;
 }
 
 .cards {
@@ -119,12 +98,19 @@ cursor: pointer;
 transform: translateY(-2px);
 }
 
+.cart-count {
+background: #123f70;
+color: white;
+padding: 3px 9px;
+border-radius: 15px;
+font-size: 14px;
+}
+
 </style>
 
 </head>
 
 <body>
-
 
 <!-- تسجيل الدخول -->
 
@@ -162,21 +148,9 @@ placeholder="كلمة المرور"
 
 <div class="home" id="home">
 
-<div class="header">
-
 <h1>
 نظام طلب الزي الرسمي
 </h1>
-
-<button
-class="logout"
-onclick="logout()">
-
-تسجيل خروج
-
-</button>
-
-</div>
 
 <p>
 مرحباً بك 👋
@@ -225,7 +199,7 @@ class="card">
 
 👔
 
-<br><br>
+<br>
 
 زي المفتشين
 
@@ -238,7 +212,7 @@ class="card">
 
 👗
 
-<br><br>
+<br>
 
 زي المفتشات
 
@@ -251,11 +225,12 @@ onclick="showNotifications()">
 
 🔔
 
-<br><br>
+<br>
 
 الإشعارات
 
 </div>
+
 
 </div>
 
@@ -263,9 +238,6 @@ onclick="showNotifications()">
 
 
 <script>
-
-
-/* تسجيل الدخول */
 
 function login() {
 
@@ -278,17 +250,13 @@ document.getElementById("password").value;
 
 if (employee && password) {
 
-localStorage.setItem(
-"uniformLoggedIn",
-"true"
-);
+document.getElementById("login")
+.style.display = "none";
 
-localStorage.setItem(
-"employeeNumber",
-employee
-);
+document.getElementById("home")
+.style.display = "block";
 
-showHome();
+updateCartCount();
 
 } else {
 
@@ -300,23 +268,6 @@ alert(
 
 }
 
-
-/* إظهار الصفحة الرئيسية */
-
-function showHome() {
-
-document.getElementById("login")
-.style.display = "none";
-
-document.getElementById("home")
-.style.display = "block";
-
-updateCartCount();
-
-}
-
-
-/* تحديث عدد السلة */
 
 function updateCartCount() {
 
@@ -333,43 +284,11 @@ document.getElementById(
 }
 
 
-/* الإشعارات */
-
 function showNotifications() {
 
 alert(
 "لا توجد إشعارات جديدة 🔔"
 );
-
-}
-
-
-/* تسجيل الخروج */
-
-function logout() {
-
-localStorage.removeItem(
-"uniformLoggedIn"
-);
-
-document.getElementById("home")
-.style.display = "none";
-
-document.getElementById("login")
-.style.display = "block";
-
-}
-
-
-/* فحص تسجيل الدخول عند فتح الصفحة */
-
-if (
-localStorage.getItem(
-"uniformLoggedIn"
-) === "true"
-) {
-
-showHome();
 
 }
 
