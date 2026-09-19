@@ -60,8 +60,11 @@ line-height: 1.8;
 
 .delete {
 background: #b3261e;
+color: white;
+border: none;
 padding: 10px 18px;
 border-radius: 8px;
+cursor: pointer;
 }
 
 .empty {
@@ -90,8 +93,13 @@ font-size: 17px;
 cursor: pointer;
 }
 
+.confirm:hover {
+background: #0d3159;
+}
+
 </style>
 </head>
+
 
 <body>
 
@@ -115,11 +123,10 @@ cursor: pointer;
 
 <div id="cartItems"></div>
 
-<div class="total" id="total">
-</div>
+<div class="total" id="total"></div>
 
 <button class="confirm" onclick="confirmOrder()">
-تأكيد الطلب
+تأكيد وإرسال الطلب
 </button>
 
 </div>
@@ -128,6 +135,7 @@ cursor: pointer;
 
 
 <script>
+
 
 function loadCart() {
 
@@ -155,27 +163,34 @@ return;
 
 container.innerHTML = "";
 
+
 cart.forEach((item, index) => {
 
-let div = document.createElement("div");
+let div =
+document.createElement("div");
 
 div.className = "item";
+
 
 div.innerHTML = `
 
 <div class="item-info">
 
-<strong>${item.name || "قطعة زي رسمي"}</strong>
+<strong>
+${item.name || "قطعة زي رسمي"}
+</strong>
 
-<br>
+${item.size ?
+"<br>المقاس: " + item.size : ""}
 
-${item.size ? "المقاس: " + item.size : ""}
-
-${item.employeeName ? "<br>الاسم: " + item.employeeName : ""}
+${item.employeeName ?
+"<br>الاسم: " + item.employeeName : ""}
 
 </div>
 
-<button class="delete"
+
+<button
+class="delete"
 onclick="removeItem(${index})">
 
 حذف
@@ -183,6 +198,7 @@ onclick="removeItem(${index})">
 </button>
 
 `;
+
 
 container.appendChild(div);
 
@@ -195,27 +211,33 @@ total.innerHTML =
 }
 
 
+
 function removeItem(index) {
 
 let cart =
 JSON.parse(localStorage.getItem("uniformCart")) || [];
 
+
 cart.splice(index, 1);
+
 
 localStorage.setItem(
 "uniformCart",
 JSON.stringify(cart)
 );
 
+
 loadCart();
 
 }
+
 
 
 function confirmOrder() {
 
 let cart =
 JSON.parse(localStorage.getItem("uniformCart")) || [];
+
 
 if (cart.length === 0) {
 
@@ -225,13 +247,94 @@ return;
 
 }
 
-alert("تم تأكيد الطلب بنجاح ✅");
 
-localStorage.removeItem("uniformCart");
+// إنشاء رقم الطلب
 
-loadCart();
+let now = new Date();
+
+
+let date =
+now.getFullYear().toString() +
+
+(now.getMonth() + 1)
+.toString()
+.padStart(2, "0") +
+
+now.getDate()
+.toString()
+.padStart(2, "0");
+
+
+let random =
+Math.floor(1000 + Math.random() * 9000);
+
+
+let orderNumber =
+"UR-" + date + "-" + random;
+
+
+
+// حفظ الطلب
+
+let orders =
+JSON.parse(
+localStorage.getItem("uniformOrders")
+) || [];
+
+
+let newOrder = {
+
+number: orderNumber,
+
+date:
+new Date().toLocaleString("ar-AE"),
+
+status: "جديد",
+
+items: cart
+
+};
+
+
+orders.push(newOrder);
+
+
+localStorage.setItem(
+"uniformOrders",
+JSON.stringify(orders)
+);
+
+
+
+// إفراغ السلة
+
+localStorage.removeItem(
+"uniformCart"
+);
+
+
+
+// رسالة النجاح
+
+alert(
+
+"تم إرسال الطلب بنجاح ✅\n\n" +
+
+"رقم الطلب: " +
+
+orderNumber
+
+);
+
+
+
+// العودة للرئيسية
+
+window.location.href =
+"index.html";
 
 }
+
 
 
 loadCart();
@@ -239,4 +342,5 @@ loadCart();
 </script>
 
 </body>
+
 </html>
