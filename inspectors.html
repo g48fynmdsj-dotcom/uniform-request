@@ -17,8 +17,21 @@ color: #12345b;
 .header {
 background: #123f70;
 color: white;
-padding: 25px;
+padding: 20px;
 text-align: center;
+position: relative;
+}
+
+.cart {
+position: absolute;
+left: 20px;
+top: 20px;
+background: white;
+color: #123f70;
+padding: 10px 15px;
+border-radius: 10px;
+font-weight: bold;
+cursor: pointer;
 }
 
 .container {
@@ -48,6 +61,7 @@ justify-content: space-between;
 align-items: center;
 padding: 15px 0;
 border-bottom: 1px solid #e5ebf2;
+gap: 15px;
 }
 
 .item:last-child {
@@ -67,10 +81,14 @@ button {
 background: #123f70;
 color: white;
 border: none;
-padding: 14px 30px;
+padding: 11px 20px;
 border-radius: 10px;
-font-size: 16px;
+font-size: 15px;
 cursor: pointer;
+}
+
+button:hover {
+opacity: 0.9;
 }
 
 .back {
@@ -85,19 +103,71 @@ font-weight: bold;
 text-align: center;
 margin-top: 30px;
 }
+
+#cartBox {
+display: none;
+background: white;
+padding: 25px;
+margin-bottom: 25px;
+border-radius: 18px;
+box-shadow: 0 3px 15px #d8e0ea;
+}
+
+.cartItem {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 12px 0;
+border-bottom: 1px solid #e5ebf2;
+}
+
+.remove {
+background: #b42318;
+padding: 7px 12px;
+font-size: 13px;
+}
+
+.empty {
+text-align: center;
+color: #777;
+}
+
+.confirm {
+margin-top: 20px;
+width: 100%;
+}
 </style>
 </head>
 
 <body>
 
 <div class="header">
+
+<div class="cart" onclick="toggleCart()">
+🛒 السلة (<span id="cartCount">0</span>)
+</div>
+
 <h1>زي المفتشين</h1>
 <p>طلب الزي الرسمي</p>
+
 </div>
 
 <div class="container">
 
 <a href="index.html" class="back">← العودة للرئيسية</a>
+
+<div id="cartBox">
+
+<h2>🛒 سلة الطلب</h2>
+
+<div id="cartItems"></div>
+
+<button class="confirm" onclick="submitOrder()">
+تأكيد وإرسال الطلب
+</button>
+
+</div>
+
 
 <div class="type">
 
@@ -105,18 +175,23 @@ margin-top: 30px;
 
 <div class="item">
 <span>الزي الرسمي</span>
-<button>طلب تفصيل</button>
+<button onclick="addToCart('سينيور - الزي الرسمي')">
+طلب تفصيل
+</button>
 </div>
 
 <div class="item">
 <span>الأزرار</span>
-<button>طلب</button>
+<button onclick="addToCart('سينيور - الأزرار')">
+طلب
+</button>
 </div>
 
 <div class="item">
 <span>الحذاء</span>
-<select>
-<option>اختر المقاس</option>
+
+<select id="seniorShoe">
+<option value="">اختر المقاس</option>
 <option>38</option>
 <option>39</option>
 <option>40</option>
@@ -127,28 +202,54 @@ margin-top: 30px;
 <option>45</option>
 <option>46</option>
 </select>
+
+<button onclick="addShoe('سينيور','seniorShoe')">
+أضف للسلة
+</button>
+
 </div>
 
 <div class="item">
 <span>البريهة</span>
-<select>
-<option>اختر المقاس</option>
+
+<select id="seniorHat">
+<option value="">اختر المقاس</option>
 </select>
+
+<button onclick="addSizeItem('سينيور - البريهة','seniorHat')">
+أضف للسلة
+</button>
+
 </div>
 
 <div class="item">
 <span>شعار البريهة</span>
-<button>طلب</button>
+<button onclick="addToCart('سينيور - شعار البريهة')">
+طلب
+</button>
 </div>
 
 <div class="item">
 <span>الشعار</span>
-<button>طلب</button>
+<button onclick="addToCart('سينيور - الشعار')">
+طلب
+</button>
 </div>
 
 <div class="item">
+
 <span>بادج نيم - الاسم الثلاثي</span>
-<input type="text" placeholder="اكتب الاسم الثلاثي">
+
+<input
+id="seniorName"
+type="text"
+placeholder="اكتب الاسم الثلاثي"
+>
+
+<button onclick="addName()">
+أضف للسلة
+</button>
+
 </div>
 
 </div>
@@ -160,18 +261,24 @@ margin-top: 30px;
 
 <div class="item">
 <span>الزي الرسمي</span>
-<button>طلب تفصيل</button>
+<button onclick="addToCart('جونيور - الزي الرسمي')">
+طلب تفصيل
+</button>
 </div>
 
 <div class="item">
 <span>الأزرار</span>
-<button>طلب</button>
+<button onclick="addToCart('جونيور - الأزرار')">
+طلب
+</button>
 </div>
 
 <div class="item">
+
 <span>الحذاء</span>
-<select>
-<option>اختر المقاس</option>
+
+<select id="juniorShoe">
+<option value="">اختر المقاس</option>
 <option>38</option>
 <option>39</option>
 <option>40</option>
@@ -182,27 +289,185 @@ margin-top: 30px;
 <option>45</option>
 <option>46</option>
 </select>
+
+<button onclick="addShoe('جونيور','juniorShoe')">
+أضف للسلة
+</button>
+
 </div>
 
 <div class="item">
+
 <span>البريهة</span>
-<select>
-<option>اختر المقاس</option>
+
+<select id="juniorHat">
+<option value="">اختر المقاس</option>
 </select>
+
+<button onclick="addSizeItem('جونيور - البريهة','juniorHat')">
+أضف للسلة
+</button>
+
+</div>
+
 </div>
 
 </div>
 
-<div class="submit">
-<button onclick="submitOrder()">إرسال الطلب</button>
-</div>
-
-</div>
 
 <script>
-function submitOrder() {
-alert("تم تجهيز الطلب بنجاح");
+
+let cart = JSON.parse(localStorage.getItem("uniformCart")) || [];
+
+function saveCart() {
+localStorage.setItem("uniformCart", JSON.stringify(cart));
+updateCart();
 }
+
+function addToCart(name) {
+
+cart.push({
+name: name,
+details: "استحقاق"
+});
+
+saveCart();
+
+alert("تمت إضافة الصنف إلى السلة 🛒");
+}
+
+function addShoe(type, id) {
+
+let size = document.getElementById(id).value;
+
+if (!size) {
+alert("يرجى اختيار مقاس الحذاء");
+return;
+}
+
+cart.push({
+name: type + " - الحذاء",
+details: "المقاس " + size
+});
+
+saveCart();
+
+alert("تمت إضافة الحذاء إلى السلة 🛒");
+}
+
+function addSizeItem(name, id) {
+
+let size = document.getElementById(id).value;
+
+if (!size) {
+alert("يرجى اختيار المقاس");
+return;
+}
+
+cart.push({
+name: name,
+details: "المقاس " + size
+});
+
+saveCart();
+
+alert("تمت إضافة الصنف إلى السلة 🛒");
+}
+
+function addName() {
+
+let name = document.getElementById("seniorName").value.trim();
+
+if (!name) {
+alert("يرجى كتابة الاسم الثلاثي");
+return;
+}
+
+cart.push({
+name: "سينيور - بادج نيم",
+details: name
+});
+
+saveCart();
+
+alert("تمت إضافة الاسم إلى السلة 🛒");
+}
+
+function removeItem(index) {
+
+cart.splice(index, 1);
+
+saveCart();
+}
+
+function updateCart() {
+
+document.getElementById("cartCount").innerText = cart.length;
+
+let box = document.getElementById("cartItems");
+
+if (cart.length === 0) {
+
+box.innerHTML =
+'<div class="empty">السلة فارغة</div>';
+
+return;
+}
+
+box.innerHTML = cart.map((item, index) => `
+
+<div class="cartItem">
+
+<div>
+<strong>${item.name}</strong>
+<br>
+<small>${item.details}</small>
+</div>
+
+<button
+class="remove"
+onclick="removeItem(${index})">
+حذف
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+function toggleCart() {
+
+let box = document.getElementById("cartBox");
+
+if (box.style.display === "block") {
+box.style.display = "none";
+} else {
+box.style.display = "block";
+}
+
+updateCart();
+
+}
+
+function submitOrder() {
+
+if (cart.length === 0) {
+
+alert("السلة فارغة");
+return;
+
+}
+
+alert(
+"تم تجهيز الطلب بنجاح\n\nعدد الأصناف: "
++ cart.length
+);
+
+}
+
+updateCart();
+
 </script>
 
 </body>
