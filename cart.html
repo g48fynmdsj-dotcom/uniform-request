@@ -2,24 +2,18 @@
 <html lang="ar" dir="rtl">
 
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>السلة - نظام طلب الزي الرسمي</title>
 
-
 <style>
-
 body {
 margin: 0;
 font-family: Arial, sans-serif;
 background: #f4f7fb;
 color: #12345b;
 }
-
 
 .header {
 background: #123f70;
@@ -28,18 +22,11 @@ padding: 25px;
 text-align: center;
 }
 
-
-.header h1 {
-margin: 0 0 10px 0;
-}
-
-
 .container {
 max-width: 900px;
 margin: 30px auto;
 padding: 20px;
 }
-
 
 .back {
 display: inline-block;
@@ -49,7 +36,6 @@ text-decoration: none;
 font-weight: bold;
 }
 
-
 .cart-box {
 background: white;
 padding: 25px;
@@ -57,22 +43,18 @@ border-radius: 18px;
 box-shadow: 0 3px 15px #d8e0ea;
 }
 
-
 .item {
 display: flex;
 justify-content: space-between;
 align-items: center;
 padding: 18px 5px;
 border-bottom: 1px solid #e5ebf2;
-gap: 15px;
 }
-
 
 .item-info {
 font-size: 17px;
 line-height: 1.8;
 }
-
 
 .delete {
 background: #b3261e;
@@ -83,12 +65,6 @@ border-radius: 8px;
 cursor: pointer;
 }
 
-
-.delete:hover {
-background: #8f1e18;
-}
-
-
 .empty {
 text-align: center;
 padding: 40px;
@@ -96,14 +72,12 @@ font-size: 18px;
 color: #777;
 }
 
-
 .total {
 font-size: 20px;
 font-weight: bold;
 margin-top: 25px;
 text-align: center;
 }
-
 
 .confirm {
 display: block;
@@ -117,160 +91,90 @@ border-radius: 10px;
 font-size: 18px;
 cursor: pointer;
 }
-
-
-.confirm:hover {
-background: #0d3159;
-}
-
 </style>
 
 </head>
 
-
 <body>
 
-
 <div class="header">
-
 <h1>🛒 السلة</h1>
-
 <p>مراجعة طلب الزي الرسمي</p>
-
 </div>
-
-
 
 <div class="container">
 
-
 <a href="index.html" class="back">
-
 ← العودة للرئيسية
-
 </a>
-
-
 
 <div class="cart-box">
 
-
 <div id="cartItems"></div>
 
-
-<div
-id="total"
-class="total">
-</div>
-
-
+<div id="total" class="total"></div>
 
 <button
 class="confirm"
-onclick="alert('الزر يعمل')"
+onclick="confirmOrder()">
 
 تأكيد وإرسال الطلب
 
 </button>
 
-
 </div>
-
 </div>
-
-
 
 <script>
 
-
-// عرض محتويات السلة
-
 function loadCart() {
 
-
 let cart =
-JSON.parse(
-localStorage.getItem("uniformCart")
-) || [];
-
+JSON.parse(localStorage.getItem("uniformCart")) || [];
 
 let container =
 document.getElementById("cartItems");
 
-
 let total =
 document.getElementById("total");
 
-
-
 if (cart.length === 0) {
 
-
 container.innerHTML = `
-
 <div class="empty">
-
 السلة فارغة حالياً 🛒
-
 </div>
-
 `;
 
-
 total.innerHTML = "";
-
 return;
-
 }
-
-
 
 container.innerHTML = "";
 
-
-
 cart.forEach(function(item, index) {
 
-
-let div =
-document.createElement("div");
-
+let div = document.createElement("div");
 
 div.className = "item";
 
-
-
 let itemName =
 item.name || "قطعة زي رسمي";
-
 
 let itemSize =
 item.size
 ? "<br>المقاس: " + item.size
 : "";
 
-
-let employeeName =
-item.employeeName
-? "<br>الاسم: " + item.employeeName
-: "";
-
-
-
 div.innerHTML = `
 
 <div class="item-info">
 
-<strong>
-${itemName}
-</strong>
+<strong>${itemName}</strong>
 
 ${itemSize}
 
-${employeeName}
-
 </div>
-
 
 <button
 class="delete"
@@ -282,124 +186,59 @@ onclick="removeItem(${index})">
 
 `;
 
-
-
 container.appendChild(div);
-
 
 });
 
-
-
 total.innerHTML =
 "عدد القطع: " + cart.length;
-
 }
 
 
-
-// حذف قطعة
-
 function removeItem(index) {
 
-
 let cart =
-JSON.parse(
-localStorage.getItem("uniformCart")
-) || [];
-
+JSON.parse(localStorage.getItem("uniformCart")) || [];
 
 cart.splice(index, 1);
-
 
 localStorage.setItem(
 "uniformCart",
 JSON.stringify(cart)
 );
 
-
 loadCart();
-
 }
 
-
-
-// تأكيد وإرسال الطلب
 
 function confirmOrder() {
 
-
 let cart =
-JSON.parse(
-localStorage.getItem("uniformCart")
-) || [];
-
-
+JSON.parse(localStorage.getItem("uniformCart")) || [];
 
 if (cart.length === 0) {
 
-
 alert("السلة فارغة");
-
-
 return;
-
 }
-
-
-
-// إنشاء رقم الطلب
 
 let now = new Date();
 
-
-
 let date =
-
 now.getFullYear().toString() +
-
-(now.getMonth() + 1)
-.toString()
-.padStart(2, "0") +
-
-now.getDate()
-.toString()
-.padStart(2, "0");
-
-
+(now.getMonth() + 1).toString().padStart(2, "0") +
+now.getDate().toString().padStart(2, "0");
 
 let random =
-
-Math.floor(
-1000 + Math.random() * 9000
-);
-
-
+Math.floor(1000 + Math.random() * 9000);
 
 let orderNumber =
-
-"UR-" +
-date +
-"-" +
-random;
-
-
-
-// قراءة الطلبات السابقة
+"UR-" + date + "-" + random;
 
 let orders =
-
 JSON.parse(
-
-localStorage.getItem(
-"uniformOrders"
-)
-
+localStorage.getItem("uniformOrders")
 ) || [];
-
-
-
-// إنشاء الطلب الجديد
 
 let newOrder = {
 
@@ -414,63 +253,31 @@ items: cart
 
 };
 
-
-
-// إضافة الطلب
-
 orders.push(newOrder);
 
-
-
-// حفظ الطلبات
-
 localStorage.setItem(
-
 "uniformOrders",
-
 JSON.stringify(orders)
-
 );
-
-
-
-// تفريغ السلة
 
 localStorage.removeItem(
 "uniformCart"
 );
 
-
-
-// إظهار رقم الطلب
-
 alert(
-
 "تم إرسال الطلب بنجاح ✅\n\n" +
-
-"رقم الطلب:\n" +
-
+"رقم الطلب: " +
 orderNumber
-
 );
-
-
-
-// العودة للرئيسية
 
 window.location.href =
 "index.html";
-
 }
 
-
-
-// تشغيل السلة
 
 loadCart();
 
 </script>
-
 
 </body>
 
