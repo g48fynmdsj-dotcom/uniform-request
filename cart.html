@@ -5,9 +5,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>السلة - نظام طلب الزي الرسمي</title>
+<title>سلة الطلب</title>
 
 <style>
+
 body {
 margin: 0;
 font-family: Arial, sans-serif;
@@ -15,72 +16,61 @@ background: #f4f7fb;
 color: #12345b;
 }
 
-.header {
-background: #123f70;
-color: white;
-padding: 25px;
-text-align: center;
-}
-
 .container {
-max-width: 900px;
-margin: 30px auto;
+max-width: 800px;
+margin: 40px auto;
 padding: 20px;
 }
 
+.header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 25px;
+}
+
 .back {
-display: inline-block;
-margin-bottom: 20px;
-color: #123f70;
+background: #123f70;
+color: white;
 text-decoration: none;
-font-weight: bold;
+padding: 10px 18px;
+border-radius: 10px;
 }
 
 .cart-box {
 background: white;
 padding: 25px;
 border-radius: 18px;
-box-shadow: 0 3px 15px #d8e0ea;
+box-shadow: 0 4px 18px #d8e0ea;
 }
 
 .item {
 display: flex;
 justify-content: space-between;
 align-items: center;
-padding: 18px 5px;
-border-bottom: 1px solid #e5ebf2;
+padding: 18px 0;
+border-bottom: 1px solid #e5eaf0;
+gap: 15px;
+}
+
+.item:last-child {
+border-bottom: none;
 }
 
 .item-info {
-font-size: 17px;
 line-height: 1.8;
 }
 
 .delete {
-background: #b3261e;
+background: #a52a2a;
 color: white;
 border: none;
-padding: 10px 18px;
+padding: 9px 15px;
 border-radius: 8px;
 cursor: pointer;
 }
 
-.empty {
-text-align: center;
-padding: 40px;
-font-size: 18px;
-color: #777;
-}
-
-.total {
-font-size: 20px;
-font-weight: bold;
-margin-top: 25px;
-text-align: center;
-}
-
 .confirm {
-display: block;
 width: 100%;
 margin-top: 25px;
 background: #123f70;
@@ -88,31 +78,37 @@ color: white;
 border: none;
 padding: 16px;
 border-radius: 10px;
-font-size: 18px;
+font-size: 17px;
 cursor: pointer;
 }
+
+.empty {
+text-align: center;
+padding: 50px 10px;
+font-size: 20px;
+}
+
 </style>
 
 </head>
 
 <body>
 
-<div class="header">
-<h1>🛒 السلة</h1>
-<p>مراجعة طلب الزي الرسمي</p>
-</div>
-
 <div class="container">
 
+<div class="header">
+
+<h1>🛒 سلة الطلب</h1>
+
 <a href="index.html" class="back">
-← العودة للرئيسية
+العودة للرئيسية
 </a>
+
+</div>
 
 <div class="cart-box">
 
 <div id="cartItems"></div>
-
-<div id="total" class="total"></div>
 
 <button
 class="confirm"
@@ -123,62 +119,67 @@ onclick="confirmOrder()">
 </button>
 
 </div>
+
 </div>
+
 
 <script>
 
-function loadCart() {
+function getCart() {
 
-let cart =
-JSON.parse(localStorage.getItem("uniformCart")) || [];
+return JSON.parse(
+localStorage.getItem("uniformCart")
+) || [];
 
-let container =
+}
+
+
+function displayCart() {
+
+const cart = getCart();
+
+const container =
 document.getElementById("cartItems");
-
-let total =
-document.getElementById("total");
 
 if (cart.length === 0) {
 
 container.innerHTML = `
 <div class="empty">
-السلة فارغة حالياً 🛒
+السلة فارغة 🛒
 </div>
 `;
 
-total.innerHTML = "";
 return;
 }
 
 container.innerHTML = "";
 
-cart.forEach(function(item, index) {
+cart.forEach((item, index) => {
 
-let div = document.createElement("div");
+const div =
+document.createElement("div");
 
 div.className = "item";
-
-let itemName =
-item.name || "قطعة زي رسمي";
-
-let itemSize =
-item.size
-? "<br>المقاس: " + item.size
-: "";
 
 div.innerHTML = `
 
 <div class="item-info">
 
-<strong>${itemName}</strong>
+<strong>
+${item.name || item.product || "الزي الرسمي"}
+</strong>
 
-${itemSize}
+<br>
+
+${item.size ? "المقاس: " + item.size : ""}
+
+${item.type ? "<br>النوع: " + item.type : ""}
 
 </div>
 
 <button
 class="delete"
-onclick="removeItem(${index})">
+onclick="deleteItem(${index})">
 
 حذف
 
@@ -190,15 +191,12 @@ container.appendChild(div);
 
 });
 
-total.innerHTML =
-"عدد القطع: " + cart.length;
 }
 
 
-function removeItem(index) {
+function deleteItem(index) {
 
-let cart =
-JSON.parse(localStorage.getItem("uniformCart")) || [];
+const cart = getCart();
 
 cart.splice(index, 1);
 
@@ -207,45 +205,66 @@ localStorage.setItem(
 JSON.stringify(cart)
 );
 
-loadCart();
+displayCart();
+
+}
+
+
+function createOrderNumber() {
+
+const now = new Date();
+
+const year =
+now.getFullYear();
+
+const month =
+String(now.getMonth() + 1)
+.padStart(2, "0");
+
+const day =
+String(now.getDate())
+.padStart(2, "0");
+
+const random =
+Math.floor(
+1000 + Math.random() * 9000
+);
+
+return `UR-${year}${month}${day}-${random}`;
+
 }
 
 
 function confirmOrder() {
 
-let cart =
-JSON.parse(localStorage.getItem("uniformCart")) || [];
+const cart = getCart();
 
 if (cart.length === 0) {
 
-alert("السلة فارغة");
+alert("السلة فارغة 🛒");
+
 return;
+
 }
 
-let now = new Date();
 
-let date =
-now.getFullYear().toString() +
-(now.getMonth() + 1).toString().padStart(2, "0") +
-now.getDate().toString().padStart(2, "0");
+const orderNumber =
+createOrderNumber();
 
-let random =
-Math.floor(1000 + Math.random() * 9000);
 
-let orderNumber =
-"UR-" + date + "-" + random;
-
-let orders =
+const orders =
 JSON.parse(
 localStorage.getItem("uniformOrders")
 ) || [];
 
-let newOrder = {
 
-number: orderNumber,
+const order = {
 
-date:
-new Date().toLocaleString("ar-AE"),
+orderNumber: orderNumber,
+
+date: new Date().toLocaleString(
+"ar-AE"
+),
 
 status: "جديد",
 
@@ -253,29 +272,41 @@ items: cart
 
 };
 
-orders.push(newOrder);
+
+orders.push(order);
+
 
 localStorage.setItem(
 "uniformOrders",
 JSON.stringify(orders)
 );
 
+
+// تفريغ السلة
+
 localStorage.removeItem(
 "uniformCart"
 );
 
+
+// إظهار رقم الطلب
+
 alert(
 "تم إرسال الطلب بنجاح ✅\n\n" +
-"رقم الطلب: " +
+"رقم الطلب:\n" +
 orderNumber
 );
 
+
+// العودة للرئيسية
+
 window.location.href =
 "index.html";
+
 }
 
 
-loadCart();
+displayCart();
 
 </script>
 
