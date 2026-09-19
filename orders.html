@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>طلباتي</title>
+
+<style>
+
+body {
+margin: 0;
+font-family: Arial, sans-serif;
+background: #f4f7fb;
+color: #12345b;
+}
+
+.header {
+background: #123f70;
+color: white;
+padding: 25px;
+text-align: center;
+}
+
+.container {
+max-width: 900px;
+margin: 30px auto;
+padding: 20px;
+}
+
+.back {
+display: inline-block;
+margin-bottom: 20px;
+color: #123f70;
+text-decoration: none;
+font-weight: bold;
+}
+
+.order {
+background: white;
+margin-bottom: 20px;
+padding: 20px;
+border-radius: 16px;
+box-shadow: 0 3px 15px #d8e0ea;
+}
+
+.order-number {
+font-size: 19px;
+font-weight: bold;
+color: #123f70;
+}
+
+.order-date {
+color: #777;
+margin-top: 8px;
+}
+
+.status {
+display: inline-block;
+margin-top: 12px;
+padding: 8px 15px;
+border-radius: 20px;
+background: #e8f0f8;
+color: #123f70;
+font-weight: bold;
+}
+
+.items {
+margin-top: 15px;
+line-height: 1.9;
+}
+
+.empty {
+background: white;
+padding: 40px;
+text-align: center;
+border-radius: 16px;
+box-shadow: 0 3px 15px #d8e0ea;
+color: #777;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+<h1>📋 طلباتي</h1>
+
+<p>متابعة طلبات الزي الرسمي</p>
+
+</div>
+
+
+<div class="container">
+
+<a href="index.html" class="back">
+← العودة للرئيسية
+</a>
+
+
+<div id="orders"></div>
+
+</div>
+
+
+<script>
+
+function loadOrders() {
+
+let orders =
+JSON.parse(
+localStorage.getItem("uniformOrders")
+) || [];
+
+let container =
+document.getElementById("orders");
+
+
+if (orders.length === 0) {
+
+container.innerHTML = `
+
+<div class="empty">
+
+لا توجد طلبات حالياً 📋
+
+</div>
+
+`;
+
+return;
+}
+
+
+container.innerHTML = "";
+
+
+orders.slice().reverse().forEach(function(order) {
+
+let itemsHTML = "";
+
+
+if (order.items && order.items.length > 0) {
+
+order.items.forEach(function(item) {
+
+itemsHTML += `
+
+<div>
+
+• ${item.name || "قطعة زي رسمي"}
+
+${item.size
+? " - المقاس: " + item.size
+: ""}
+
+</div>
+
+`;
+
+});
+
+
